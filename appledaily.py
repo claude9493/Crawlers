@@ -1,4 +1,4 @@
-import scrapy, string
+import scrapy, string, re
 
 class AppleDailySpider(scrapy.Spider):
     name = "appledaily"
@@ -16,5 +16,4 @@ class AppleDailySpider(scrapy.Spider):
         self.logger.info('Parsing: %s\n Title: %s'%(response.url, title))
         content = response.xpath("//div[contains(@class, 'ArticleContent_Inner')]/p/text()").extract() 
         with open('news.txt', 'a', encoding='utf-8') as f:
-            f.write(title)
-            f.write(''.join(content))
+            f.write("\n".join([title.strip(), '\n'.join([c.strip() for c in content]), '\n']))
